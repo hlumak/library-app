@@ -1,0 +1,22 @@
+{
+  "$schema": "https://schemas.platformatic.dev/@platformatic/db/2.53.2.json",
+  "db": {
+    "connectionString": "{PLT_PEOPLE_SERVICE_DATABASE_URL}",
+    "graphql": true,
+    "openapi": true,
+    "schemalock": true
+  },
+  "watch": {
+    "ignore": [
+      "*.sqlite",
+      "*.sqlite-journal"
+    ]
+  },
+  "migrations": {
+    "dir": "migrations",
+    "autoApply": "{PLT_PEOPLE_SERVICE_APPLY_MIGRATIONS}"
+  },
+  "types": {
+    "autogenerate": true
+  }
+}

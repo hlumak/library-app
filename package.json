@@ -1,0 +1,21 @@
+{
+  "name": "library-app",
+  "workspaces": [
+    "services/*"
+  ],
+  "scripts": {
+    "start": "platformatic start"
+  },
+  "devDependencies": {
+    "borp": "^0.19.0",
+    "fastify": "^5.2.1"
+  },
+  "dependencies": {
+    "@platformatic/composer": "^2.53.2",
+    "@platformatic/runtime": "^2.53.2",
+    "platformatic": "^2.53.2"
+  },
+  "engines": {
+    "node": "^18.8.0 || >=20.6.0"
+  }
+}

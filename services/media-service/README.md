@@ -1,6 +1,6 @@
-# Library App
+# Platformatic Composer API
 
-This is a generated [Platformatic Runtime](https://docs.platformatic.dev/docs/runtime/overview) application.
+This is a generated [Platformatic Composer](https://docs.platformatic.dev/docs/composer/overview) application.
 
 ## Requirements
 
@@ -23,10 +23,8 @@ Run the API with:
 npm start
 ```
 
-## Adding a Service
+### Explore
+- ⚡ The Platformatic Composer server is running at http://localhost:3042/
+- 📔 View the REST API's Swagger documentation at http://localhost:3042/documentation/
 
-Adding a new service to this project is as simple as running `create-platformatic` again, like so:
 
-```
-npx create-platformatic
-```
