@@ -1,14 +1,14 @@
 {
   "paths": {
     "/books/": {
-      "post": { "ignore": true },
-      "put": { "ignore": true },
-      "delete": { "ignore": true }
+      "post": { "ignore": false },
+      "put": { "ignore": false },
+      "delete": { "ignore": false }
     },
     "/books/{id}": {
-      "post": { "ignore": true },
-      "put": { "ignore": true },
-      "delete": { "ignore": true }
+      "post": { "ignore": false },
+      "put": { "ignore": false },
+      "delete": { "ignore": false }
     }
   }
 }
