@@ -28,6 +28,12 @@
       "serviceId": "people-service"
     }
   ],
+  "server": {
+    "cors": {
+      "origin": "*",
+      "methods": ["GET", "PUT", "POST", "DELETE"]
+    }
+  },
   "plugins": {
     "paths": [
       "./plugin.js"
