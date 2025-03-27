@@ -6,7 +6,10 @@ const people = [
   'Lewis Carroll',
   'Martha Schumacher',
   'Mick Garris',
-  'Dede Gardner'
+  'Dede Gardner',
+  'Osgood Perkins',
+  'James Wan',
+  'Andrzej Sapkowski'
 ]
 
 module.exports = async function ({ entities, logger }) {

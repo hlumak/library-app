@@ -1,7 +1,7 @@
 {
   "paths": {
     "/people/": {
-      "post": { "ignore": true },
+      "post": { "ignore": false },
       "put": { "ignore": true },
       "delete": { "ignore": true }
     },
