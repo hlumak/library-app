@@ -37,7 +37,28 @@ module.exports = async function peopleDataPlugin (app) {
     }
   }
 
-  function booksOnRouteHook (routeOptions) {
+  function buildOnComposerRequestHandler (peopleProps) {
+    return async function processPeopleInRequest (request) {
+      const body = request.body
+
+      const allPeople = await request.people.getPeople({})
+
+      for (const { idProp, nameProp } of peopleProps) {
+        if (body[nameProp] && !body[idProp]) {
+          const person = allPeople.find(person => person.name === body[nameProp])
+          if (person) {
+            body[idProp] = person.id
+          } else {
+            throw new Error(`Person with name "${body[nameProp]}" not found`)
+          }
+        }
+      }
+
+      return body
+    }
+  }
+
+  function booksOnGetRouteHook (routeOptions) {
     const responseSchema = routeOptions.schema.response[200]
     const entitySchema = (responseSchema.items) ? responseSchema.items : responseSchema
     entitySchema.properties.authorName = { type: 'string' }
@@ -49,10 +70,28 @@ module.exports = async function peopleDataPlugin (app) {
     ])
   }
 
-  app.platformatic.addComposerOnRouteHook('/books/', ['GET'], booksOnRouteHook)
-  app.platformatic.addComposerOnRouteHook('/books/{id}', ['GET'], booksOnRouteHook)
+  function booksOnMutationRouteHook (routeOptions) {
+    const bodySchema = routeOptions.schema.body
+    bodySchema.properties.authorName = { type: 'string' }
 
-  function moviesOnRouteHook (routeOptions) {
+    const originalHandler = routeOptions.preHandler || (async () => {})
+    routeOptions.preHandler = async (request, reply) => {
+      await originalHandler(request, reply)
+
+      const peopleHandler = buildOnComposerRequestHandler([
+        { idProp: 'authorId', nameProp: 'authorName' }
+      ])
+
+      request.body = await peopleHandler(request)
+    }
+  }
+
+  app.platformatic.addComposerOnRouteHook('/books/', ['GET'], booksOnGetRouteHook)
+  app.platformatic.addComposerOnRouteHook('/books/{id}', ['GET'], booksOnGetRouteHook)
+  app.platformatic.addComposerOnRouteHook('/books/', ['POST'], booksOnMutationRouteHook)
+  app.platformatic.addComposerOnRouteHook('/books/{id}', ['PUT'], booksOnMutationRouteHook)
+
+  function moviesOnGetRouteHook (routeOptions) {
     const responseSchema = routeOptions.schema.response[200]
     const entitySchema = (responseSchema.items) ? responseSchema.items : responseSchema
     entitySchema.properties.directorName = { type: 'string' }
@@ -66,6 +105,26 @@ module.exports = async function peopleDataPlugin (app) {
     ])
   }
 
-  app.platformatic.addComposerOnRouteHook('/movies/', ['GET'], moviesOnRouteHook)
-  app.platformatic.addComposerOnRouteHook('/movies/{id}', ['GET'], moviesOnRouteHook)
+  function moviesOnMutationRouteHook (routeOptions) {
+    const bodySchema = routeOptions.schema.body
+    bodySchema.properties.directorName = { type: 'string' }
+    bodySchema.properties.producerName = { type: 'string' }
+
+    const originalHandler = routeOptions.preHandler || (async () => {})
+    routeOptions.preHandler = async (request, reply) => {
+      await originalHandler(request, reply)
+
+      const peopleHandler = buildOnComposerRequestHandler([
+        { idProp: 'directorId', nameProp: 'directorName' },
+        { idProp: 'producerId', nameProp: 'producerName' }
+      ])
+
+      request.body = await peopleHandler(request)
+    }
+  }
+
+  app.platformatic.addComposerOnRouteHook('/movies/', ['GET'], moviesOnGetRouteHook)
+  app.platformatic.addComposerOnRouteHook('/movies/{id}', ['GET'], moviesOnGetRouteHook)
+  app.platformatic.addComposerOnRouteHook('/movies/', ['POST'], moviesOnMutationRouteHook)
+  app.platformatic.addComposerOnRouteHook('/movies/{id}', ['PUT'], moviesOnMutationRouteHook)
 }
