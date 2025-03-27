@@ -15,13 +15,6 @@
           "url": "/documentation/json",
           "config": "movies-service-openapi.config.json"
         }
-      },
-      {
-        "id": "people-service",
-        "openapi": {
-          "url": "/documentation/json",
-          "config": "people-service-openapi.config.json"
-        }
       }
     ],
     "refreshTimeout": 1000
@@ -38,7 +31,12 @@
   "server": {
     "cors": {
       "origin": "*",
-      "methods": ["GET", "PUT", "POST", "DELETE"]
+      "methods": [
+        "GET",
+        "PUT",
+        "POST",
+        "DELETE"
+      ]
     }
   },
   "plugins": {
